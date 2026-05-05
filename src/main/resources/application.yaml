@@ -1,13 +1,15 @@
 spring:
   application:
-    name: ximivilig
+    name: tournament-management
 
+  # ── DataSource ──────────────────────────────────────────────
   datasource:
     url: jdbc:postgresql://localhost:5432/tournament_db
-    username: postgres
-    password: 123456
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:123456}
     driver-class-name: org.postgresql.Driver
 
+  # ── JPA / Hibernate ────────────────────────────────────────
   jpa:
     hibernate:
       ddl-auto: update
@@ -15,5 +17,44 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
 
+  # ── Mail (disabled by default, enable in .env) ─────────────
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# ── JWT ─────────────────────────────────────────────────────
+app:
+  jwt:
+    secret: ${JWT_SECRET:defaultSecretKeyForDevelopmentOnlyMustBeAtLeast32Characters}
+    expiration-ms: 86400000  # 24 hours
+
+# ── Server ──────────────────────────────────────────────────
+server:
+  port: 8080
+
+# ── Swagger / OpenAPI ───────────────────────────────────────
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+
+# ── Logging ─────────────────────────────────────────────────
+logging:
+  level:
+    com.example.kenmujo.ximivilig: DEBUG
+    org.springframework.security: INFO
