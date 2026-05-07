@@ -37,7 +37,8 @@ public class TournamentServiceImpl implements TournamentService {
     @Transactional(readOnly = true)
     public PageResponse<TournamentResponse> getAllPublicTournaments(
             TournamentStatus status, TournamentFormat format, String search, Pageable pageable) {
-        Page<Tournament> tournaments = tournamentRepository.searchPublicTournaments(status, format, search, pageable);
+        String searchStr = (search != null && !search.isBlank()) ? search : null;
+        Page<Tournament> tournaments = tournamentRepository.searchPublicTournaments(status, format, searchStr, pageable);
         return PageResponse.of(tournaments.map(this::mapToResponse));
     }
 

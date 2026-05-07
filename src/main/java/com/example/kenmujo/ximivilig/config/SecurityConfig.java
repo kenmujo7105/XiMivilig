@@ -1,5 +1,7 @@
 package com.example.kenmujo.ximivilig.config;
 
+import org.springframework.security.config.Customizer;
+
 import com.example.kenmujo.ximivilig.security.JwtAuthFilter;
 import com.example.kenmujo.ximivilig.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +50,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
